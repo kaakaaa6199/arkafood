@@ -1,98 +1,92 @@
-<?php include 'includes/header.php'; ?>
-<?php require_once __DIR__ . '/includes/db.php'; ?>
+<?php
+require_once __DIR__ . '/auth.php';
+require_login();
 
+// Ensure settings table exists
+$pdo->exec("CREATE TABLE IF NOT EXISTS settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(100) NOT NULL UNIQUE,
+    `value` TEXT
+)");
+
+function get_setting($k) {
+    global $pdo;
+    $stmt = $pdo->prepare('SELECT value FROM settings WHERE `key` = :k LIMIT 1');
+    $stmt->execute([':k'=>$k]);
+    $r = $stmt->fetch();
+    return $r ? $r['value'] : '';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $history = $_POST['history'] ?? '';
+    $vision = $_POST['vision'] ?? '';
+    $mission = $_POST['mission'] ?? '';
+    $stmt = $pdo->prepare('INSERT INTO settings (`key`,`value`) VALUES (:k,:v) ON DUPLICATE KEY UPDATE `value` = :v2');
+    $stmt->execute([':k'=>'history',':v'=>$history,':v2'=>$history]);
+    $stmt->execute([':k'=>'vision',':v'=>$vision,':v2'=>$vision]);
+    $stmt->execute([':k'=>'mission',':v'=>$mission,':v2'=>$mission]);
+    $saved = true;
+}
+
+$history = get_setting('history');
+$vision = get_setting('vision');
+$mission = get_setting('mission');
+
+?>
+<?php include __DIR__ . '/includes/header.php'; ?>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Kelola Tentang Kami</h3>
+        <div>
+            <a href="dashboard.php" class="btn btn-outline-secondary">Kembali</a>
+        </div>
+    </div>
+
+    <?php if(!empty($saved)): ?><div class="alert alert-success">Perubahan disimpan.</div><?php endif; ?>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Sejarah</label>
+            <textarea name="history" class="form-control" rows="6"><?= htmlspecialchars($history) ?></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Visi</label>
+            <textarea name="vision" class="form-control" rows="3"><?= htmlspecialchars($vision) ?></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Misi</label>
+            <textarea name="mission" class="form-control" rows="4"><?= htmlspecialchars($mission) ?></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Simpan</button>
+    </form>
+
+    <hr>
+    <h5 class="mt-4">Direksi</h5>
     <?php
-    // PERBAIKAN: Menggunakan 'setting_value' dan 'setting_key' agar sesuai database Anda
-    $sth = $pdo->prepare('SELECT setting_value FROM settings WHERE `setting_key` = :k LIMIT 1');
-    
-    $sth->execute([':k'=>'history']);
-    $hist = $sth->fetchColumn();
-    
-    $sth->execute([':k'=>'vision']);
-    $vision = $sth->fetchColumn();
-    
-    $sth->execute([':k'=>'mission']);
-    $mission = $sth->fetchColumn();
-
-    // Ambil data Direksi (Menggunakan try-catch agar tidak error jika tabel belum ada)
-    $directors = [];
-    try {
-        $directors = $pdo->query('SELECT name, title, image FROM directors ORDER BY id ASC')->fetchAll();
-    } catch (Exception $e) {
-        // Tabel directors belum ada, biarkan kosong dulu
-    }
+    // Create directors table if not exists
+    $pdo->exec("CREATE TABLE IF NOT EXISTS directors (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), title VARCHAR(255), image VARCHAR(255), ord INT DEFAULT 0)");
+    $directors = $pdo->query('SELECT * FROM directors ORDER BY ord ASC')->fetchAll();
     ?>
+    <a href="director_edit.php" class="btn btn-sm btn-primary mb-2">Tambah Direktur</a>
+    <table class="table table-sm">
+        <thead><tr><th>#</th><th>Gambar</th><th>Nama</th><th>Title</th><th>Aksi</th></tr></thead>
+        <tbody>
+            <?php foreach($directors as $d): ?>
+            <tr>
+                <td><?= $d['id'] ?></td>
+                <td><img src="<?= htmlspecialchars($d['image'] ?: 'assets/images/placeholder.png') ?>" style="max-width:80px"></td>
+                <td><?= htmlspecialchars($d['name']) ?></td>
+                <td><?= htmlspecialchars($d['title']) ?></td>
+                <td>
+                    <a href="director_edit.php?id=<?= $d['id'] ?>" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a href="director_delete.php?id=<?= $d['id'] ?>&token=<?= urlencode(generate_csrf_token()) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus direktur?')">Hapus</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-    <section class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5" style="color: var(--primary-color-2);">Sejarah Arka Food</h2>
-            <div class="row align-items-center">
-                <div class="col-lg-6 fade-in about-image-container d-flex justify-content-center">
-                    <img src="<?= $base ?>/assets/images/about.png" alt="Sejarah Arka Food" class="img-fluid rounded" onerror="this.src='<?= $base ?>/assets/images/logo3.png'">
-                </div>
-                <div class="col-lg-6 fade-in">
-                    <p class="lead"><?= nl2br(htmlspecialchars($hist ?: 'Didirikan pada tahun 2021, Arka Food telah berkomitmen untuk menghadirkan produk makanan berkualitas premium kepada masyarakat Indonesia.')) ?></p>
-                </div>
-            </div>
-        </div>
-    </section>
+</div>
 
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-4 fade-in">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title mb-4" style="color: var(--primary-color-2);">Visi</h3>
-                            <p class="card-text"><?= nl2br(htmlspecialchars($vision ?: 'Menjadi perusahaan makanan premium terkemuka yang mengutamakan kualitas dan inovasi dalam setiap produknya.')) ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4 fade-in">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title mb-4" style="color: var(--primary-color-2);">Misi</h3>
-                            <ul class="card-text ps-3">
-                                <?php if($mission):
-                                    foreach(explode("\n", $mission) as $m){ if(trim($m)) echo '<li>' . htmlspecialchars($m) . '</li>'; }
-                                else: ?>
-                                <li>Menghadirkan produk makanan berkualitas tinggi</li>
-                                <li>Menerapkan standar keamanan pangan yang ketat</li>
-                                <li>Melakukan inovasi berkelanjutan</li>
-                                <li>Memberikan pelayanan terbaik kepada pelanggan</li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <?php if(!empty($directors)): ?>
-    <section class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5" style="color: var(--primary-color-2);">Direksi Arka Food</h2>
-            <div class="row justify-content-center">
-                <?php foreach($directors as $d):
-                    $dimg = $d['image'] ?: 'assets/images/eka.png'; 
-                    if(strpos($dimg,'uploads/')!==0) $dimg = $base . '/' . $dimg; 
-                ?>
-                <div class="col-md-3 mb-4 fade-in">
-                    <div class="card text-center h-100 border-0 shadow-sm">
-                        <div class="p-3">
-                             <img src="<?= htmlspecialchars($dimg) ?>" class="card-img-top rounded-circle mx-auto" alt="<?= htmlspecialchars($d['name']) ?>" style="width: 150px; height: 150px; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold"><?= htmlspecialchars($d['name']) ?></h5>
-                            <p class="text-muted"><?= htmlspecialchars($d['title']) ?></p>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-    <?php endif; ?>
-
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/includes/footer.php'; ?>

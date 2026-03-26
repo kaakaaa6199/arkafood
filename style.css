@@ -1,0 +1,1077 @@
+
+:root {
+    --primary-color: #113F67;
+    --primary-color-2: #0c2d4b;
+    --secondary-color-1: #34699A;
+    --secondary-color-2: #5872c8;
+    --secondary-color-3: #FDF5AA;
+    --nav-pattern-url: url('../arkapattern.png');
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.navbar {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: padding 0.25s ease, box-shadow 0.25s ease;
+    background-image: var(--nav-pattern-url), linear-gradient(var(--primary-color), var(--primary-color));
+    background-repeat: repeat, no-repeat;
+    background-size: 400px 400px, auto;
+    background-position: center, 0 0;
+    background-blend-mode: overlay;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--secondary-color-3);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+
+.navbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--nav-pattern-url);
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    background-position: center;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.navbar.navbar-scrolled {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.navbar.navbar-scrolled .navbar-brand img {
+    max-height: 48px;
+    transition: max-height 0.2s ease;
+}
+
+.navbar.navbar-scrolled::before {
+    opacity: 0.40;
+}
+
+.navbar .container,
+.navbar .navbar-brand,
+.navbar .navbar-nav,
+.navbar .nav-link {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color-3) !important;
+    transform: translateY(-2px);
+}
+
+/* Hamburger button visibility and z-index fix */
+.navbar-toggler {
+    position: relative;
+    z-index: 1031;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(253, 245, 170, 0.25);
+}
+
+/* Fix navigation underline on small screens: make underline anchored to left and expand full-width */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background-color: var(--primary-color);
+        padding: 0.5rem 1rem;
+    }
+    .navbar .navbar-nav {
+        width: 100%;
+    }
+    .navbar .nav-link {
+        display: block;
+        width: 100%;
+        padding: 0.6rem 0.75rem !important;
+        margin: 0.15rem 0;
+        text-align: left;
+    }
+    .navbar .nav-link::after {
+        left: 0;
+        transform: none;
+        width: 0;
+        transition: width 0.25s ease;
+    }
+    .navbar .nav-link:hover::after,
+    .navbar .nav-link.active::after {
+        width: 100%;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 100px 0;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--nav-pattern-url);
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    background-position: center;
+    opacity: 0.30;
+    pointer-events: none;
+    z-index: 0;
+}
+/* resilient direct background fallback for hero as well */
+.hero {
+    background-image: var(--nav-pattern-url), linear-gradient(var(--primary-color), var(--primary-color));
+    background-repeat: repeat, no-repeat;
+    background-size: 400px 400px, auto;
+    background-position: center, 0 0;
+    background-blend-mode: overlay;
+}
+
+.hero .container,
+.hero .row,
+.hero h1,
+.hero p,
+.hero a,
+.hero-image-container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.hero-image-container img {
+    max-width: 90%;
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+.about-image-container{
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+.about-image-container img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border-radius: 12px;
+}
+
+@media (max-width: 992px) {
+    .about-image-container img {
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-image-container img {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+}
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 10px rgba(17, 63, 103, 0.2);
+}
+.btn-hero {
+    box-shadow: 0 5px 15px rgba(10, 34, 56, 0.3);
+    background-color: transparent;
+    border-color: var(--secondary-color-3);
+    box-shadow: 0 2px 10px rgba(17, 63, 103, 0.2);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color-1);
+    border-color: var(--secondary-color-1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(17, 63, 103, 0.3);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(17, 63, 103, 0.3);
+}
+
+/* Cards */
+.card {
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.card-text-p{
+    color: var(--primary-color);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card .card-img-top {
+    transition: all 0.5s ease;
+    width: 100%;
+    height: 220px;
+    object-fit: contain; /* menampilkan gambar utuh tanpa terpotong */
+    background-color: #ffffff; /* background putih untuk gambar */
+    padding: 1rem; /* memberikan ruang di sekitar gambar */
+    display: block;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Hover effect yang lebih halus */
+.card:hover .card-img-top {
+    transform: scale(1.02); /* scale lebih kecil agar tidak keluar container */
+    background-color: #f8f9fa; /* subtle background change on hover */
+}
+
+/* Efek hover yang lebih menarik */
+.card:hover .card-img-top {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Responsive card image heights */
+@media (max-width: 768px) {
+    .card .card-img-top {
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card .card-img-top {
+        height: 160px;
+    }
+}
+
+.card .card-body {
+    position: relative;
+    z-index: 1;
+    background: white;
+}
+
+.card .card-title {
+    position: relative;
+    display: inline-block;
+}
+
+.card .card-title::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.card:hover .card-title::after {
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 40px 0;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--nav-pattern-url);
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    background-position: center;
+    opacity: 0.30;
+    pointer-events: none;
+    z-index: 0;
+}
+/* resilient direct background fallback for footer */
+footer {
+    background-image: var(--nav-pattern-url), linear-gradient(var(--primary-color), var(--primary-color));
+    background-repeat: repeat, no-repeat;
+    background-size: 400px 400px, auto;
+    background-position: center, 0 0;
+    background-blend-mode: overlay;
+}
+
+footer .container,
+footer .row,
+footer .col-md-3,
+footer .col-md-4,
+footer .col-12,
+footer h5,
+footer p,
+footer a,
+footer ul,
+footer li {
+    position: relative;
+    z-index: 1;
+}
+
+footer a {
+    color: var(--secondary-color-3);
+}
+
+footer a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+/* Social Media Icons */
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    margin: 0 8px;
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    text-decoration: none;
+}
+
+.social-icons a .fab {
+    color: #fff;
+    font-size: 18px;
+}
+
+.social-icons a:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Platform-specific hover colors */
+.social-icons a.social-instagram:hover { background-color: #E1306C; }
+.social-icons a.social-facebook:hover  { background-color: #1877F2; }
+.social-icons a.social-whatsapp:hover  { background-color: #25D366; }
+.social-icons a.social-tiktok:hover    { background-color: #010101; }
+
+/* Ensure icon color remains white on colored backgrounds */
+.social-icons a.social-instagram:hover .fab,
+.social-icons a.social-facebook:hover .fab,
+.social-icons a.social-whatsapp:hover .fab,
+.social-icons a.social-tiktok:hover .fab {
+    color: #fff;
+}
+
+/* Styles for social icons when placed on light backgrounds (e.g., contact page) */
+.social-icons.light a {
+    background: rgba(17,63,103,0.06);
+}
+.social-icons.light a .fab {
+    color: var(--primary-color) !important;
+    font-size: 18px;
+}
+.social-icons.light a:hover {
+    box-shadow: 0 6px 18px rgba(17,63,103,0.08);
+}
+
+/* Footer logo styling */
+.footer-logo {
+    width: 120px;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.footer-logo:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 576px) {
+    .footer-logo { width: 80px; margin-bottom: 8px; }
+}
+
+/* Contact Form */
+.contact-form {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* product detail gallery responsive tweaks */
+@media (max-width: 992px){
+    .product-gallery .gallery-item img{ height:320px }
+}
+
+/* News Card Styling */
+.featured-news-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(17, 63, 103, 0.12);
+    transition: all 0.3s ease;
+}
+
+.featured-news-card:hover {
+    box-shadow: 0 12px 32px rgba(17, 63, 103, 0.18);
+    transform: translateY(-4px);
+}
+
+.featured-news-image {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.featured-news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.featured-news-card:hover .featured-news-image img {
+    transform: scale(1.05);
+}
+
+/* News Card Grid Styling */
+.news-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+}
+
+.news-card-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.news-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-card-image img {
+    transform: scale(1.08);
+}
+
+/* News Detail Page Styling */
+.news-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+}
+
+.news-content {
+    background: white;
+    padding: 0;
+}
+
+.news-detail-gallery {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.news-gallery-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.news-gallery-item {
+    min-width: 100%;
+    height: 100%;
+}
+
+.news-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news-gallery-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.news-gallery-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.news-gallery-btn:hover {
+    background-color: var(--secondary-color-1);
+    transform: scale(1.05);
+}
+
+.news-gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.news-gallery-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.news-gallery-dot.active {
+    background-color: var(--primary-color);
+    width: 28px;
+    border-radius: 5px;
+}
+
+.news-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 20px 0 10px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.news-meta {
+    display: flex;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.news-meta i {
+    color: var(--secondary-color-2);
+    min-width: 16px;
+}
+
+.news-content-text {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.news-content-text p {
+    margin-bottom: 15px;
+}
+
+/* Sidebar - Recent News */
+.news-sidebar {
+    position: sticky;
+    top: 80px;
+}
+
+.sidebar-widget {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+}
+
+.sidebar-widget h5 {
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary-color-3);
+}
+
+.sidebar-news-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.sidebar-news-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sidebar-news-item:hover {
+    transform: translateX(4px);
+}
+
+.sidebar-news-thumb {
+    width: 80px;
+    height: 70px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.sidebar-news-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar-news-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar-news-title {
+    font-size: 12px;
+    color: var(--primary-color);
+    margin: 0 0 5px 0;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.sidebar-news-date {
+    font-size: 11px;
+    color: #999;
+}
+
+.sidebar-news-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sidebar-news-item a:hover .sidebar-news-title {
+    color: var(--secondary-color-1);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .news-detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .news-sidebar {
+        position: static;
+    }
+
+    .news-detail-gallery {
+        height: 280px;
+    }
+
+    .news-title {
+        font-size: 22px;
+    }
+
+    .featured-news-image {
+        height: 280px;
+    }
+
+    .news-card-image {
+        height: 180px;
+    }
+}
+
+/* Global responsive fixes */
+img, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ensure navbar brand image scales on small screens */
+.navbar .navbar-brand img {
+    max-height: 56px;
+    width: auto;
+}
+
+/* Improve navbar toggler visibility on dark background */
+.navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Card images: keep consistent aspect and avoid overflow */
+.card .card-img-top {
+    height: 220px;
+    object-fit: contain;
+}
+
+@media (max-width: 576px) {
+    .card .card-img-top { height: 160px; }
+    .navbar .navbar-brand img { max-height: 44px; }
+}
+
+/* Reduce hero padding on small screens to improve viewport fit */
+@media (max-width: 768px) {
+    .hero { padding: 40px 0; }
+    .hero .display-4 { font-size: 28px; }
+}
+
+/* Prevent nav links from shifting vertically on mobile (keep consistent) */
+@media (max-width: 991px) {
+    .navbar .nav-link:hover { transform: none; color: var(--secondary-color-3) !important; }
+}
+
+/* Floating WhatsApp button */
+.floating-wa-button {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    background-color: #25D366;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1100;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.floating-wa-button i { font-size: 20px; }
+
+@media (max-width: 420px) {
+    .floating-wa-button { padding: 10px 12px; right: 12px; bottom: 12px; }
+    .floating-wa-button span { display: none; }
+}
+
+/* Footer responsive tweak */
+footer { padding: 30px 0; }
+
+
+/* --- STYLE VOUCHER SHOPEE LOOK --- */
+
+/* 1. Floating Button Kiri Bawah */
+.floating-voucher-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1050;
+    background: linear-gradient(45deg, #ff5722, #f44336); /* Warna Orange Shopee */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s;
+    animation: bounce 2s infinite;
+}
+.floating-voucher-btn:hover {
+    transform: scale(1.05);
+    color: white;
+}
+
+/* 2. Voucher Card Design (Tiket) */
+.voucher-ticket {
+    display: flex;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.3s;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.voucher-ticket:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Bagian Kiri (Gambar/Icon) */
+.voucher-left {
+    background: linear-gradient(135deg, var(--primary-color), #1a5f96);
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 10px;
+    border-right: 2px dashed #fff; /* Garis putus-putus */
+    position: relative;
+}
+/* Efek bolong setengah lingkaran atas bawah */
+.voucher-left::before, .voucher-left::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #fff; /* Samakan dengan warna background modal */
+    border-radius: 50%;
+    right: -8px;
+}
+.voucher-left::before { top: -8px; }
+.voucher-left::after { bottom: -8px; }
+
+/* Bagian Kanan (Info) */
+.voucher-right {
+    flex: 1;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.voucher-code {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+.voucher-desc {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+.voucher-tnc {
+    font-size: 0.7rem;
+    color: #999;
+}
+.btn-claim {
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+.btn-claim:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* Animasi Floating */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-6px);}
+    60% {transform: translateY(-3px);}
+}
+
+/* --- PROMO BUBBLE WIDGET (SHOPEE STYLE) --- */
+
+.promo-bubble-container {
+    position: fixed;
+    bottom: 20px; /* Jarak dari bawah */
+    left: 20px;   /* Jarak dari kiri */
+    z-index: 1060; /* Di atas elemen lain */
+    width: 100px; /* Ukuran default */
+    cursor: pointer;
+    transition: transform 0.3s;
+    /* Animasi Membal Terus Menerus */
+    animation: floatingBounce 3s infinite ease-in-out;
+}
+
+.promo-bubble-container:hover {
+    transform: scale(1.1); /* Membesar saat di-hover */
+}
+
+/* Gambar Promo */
+.promo-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* Efek bayangan biar pop-up */
+}
+
+/* Tombol Close (X) Kecil */
+.promo-close-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff3b30; /* Merah menyala */
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1070;
+    padding: 0;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.promo-close-btn:hover {
+    background: #d32f2f;
+}
+
+/* Keyframes untuk Animasi Melayang */
+@keyframes floatingBounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); } /* Naik 10px */
+    100% { transform: translateY(0); }
+}
+
+/* Responsif untuk Layar HP */
+@media (max-width: 576px) {
+    .promo-bubble-container {
+        width: 85px; /* Sedikit lebih kecil di HP */
+        bottom: 15px;
+        left: 15px;
+    }
+}
+
+/* --- TOMBOL WHATSAPP FLOATING (KANAN BAWAH) --- */
+.btn-wa-floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    background-color: #25d366; /* Warna WA */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s;
+}
+.btn-wa-floating:hover {
+    background-color: #1ebe57;
+    color: white;
+    transform: scale(1.05);
+}
